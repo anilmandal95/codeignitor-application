@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4 mx-auto">
-            <div class="card mt-2">
+            <div class="card mt-2 bg-secondary">
                 <div class="card-body">
                      <h2>Create new account</h2>
                      <?php $session = session(); ?>

@@ -3,9 +3,15 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4 mx-auto">
-            <div class="card mt-2">
-                <h2>Login to account</h2>
+            <div class="card mt-2 bg-secondary">
                 <div class="card-body">
+                <h2>Login to account</h2>
+                <?php $session = session(); ?>
+                     <?php if(!is_null($session->getFlashdata('failed_message'))) : ?>
+                        <div class="alert alert-danger">
+                        <?= $session->getFlashdata('failed_message');?>
+                        </div>
+                     <?php endif ?>
                     <form action="<?= base_url('login')?>" method="post">
                         <div class="mb-2">
                             <label for="username">Username</label>

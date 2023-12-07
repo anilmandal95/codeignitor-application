@@ -105,15 +105,22 @@ class UserController extends BaseController
                 $record = $user->where("username", $username)
                          ->where("password", $password)
                          ->first();
+                $session = session();
                 if (is_null($record)) {
                     //record not found
+                    $session->set('failed_message', 'record does not match. please try again');
+                    $session->markAsFlashdata('failed_message');
                     return view('login');
                 }else {
                     //record found
-                     $extracted_username = $record['username'];
-                     $extracted_password = $record['password'];
-                     $extracted_user_type = $record['user_type'];
-                     if ($extracted_user_type == "admin") {
+                    $session_data =[
+                        "extracted_username" => $record['username'],
+                        "extracted_password" => $record['password'],
+                        "extracted_user_type" => $record['user_type'],
+                         "logined" => "logined"
+                    ];
+                    $session->set($session_data);
+                     if ($record['user_type'] == "admin") {
                         //admin-dashboard
                         return view('admin/dashboard/mainDashboard.php');
                      }else{
@@ -124,5 +131,18 @@ class UserController extends BaseController
                 }
             }
         } 
+    }
+
+    public function userDashboard(){
+
+        return view('dashboard/userDashboard');
+    }
+
+    public function userLogout(){
+        $session = session();
+        session_unset();
+        session_destroy();
+        return redirect()->to(base_url());
+
     }
 }
